@@ -1,0 +1,58 @@
+{
+  "Version": 1,
+  "Hash": "9ug2dk2zvE0jSbkQzGF9kopAEYJelyk5EDUYI1WY0ns=",
+  "Source": "GameReviewApi",
+  "BasePath": "_content/GameReviewApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "GameReviewApi/wwwroot",
+      "Source": "GameReviewApi",
+      "ContentRoot": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/",
+      "BasePath": "_content/GameReviewApi",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/Elden Ring.jpeg",
+      "SourceId": "GameReviewApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/",
+      "BasePath": "_content/GameReviewApi",
+      "RelativePath": "images/Elden Ring.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/Elden Ring.jpeg"
+    },
+    {
+      "Identity": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/Wukong.jpeg",
+      "SourceId": "GameReviewApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/",
+      "BasePath": "_content/GameReviewApi",
+      "RelativePath": "images/Wukong.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/Wukong.jpeg"
+    }
+  ]
+}

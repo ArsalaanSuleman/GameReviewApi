@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/Elden Ring.jpeg",
+      "PackagePath": "staticwebassets/images/Elden Ring.jpeg"
+    },
+    {
+      "Id": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/Wukong.jpeg",
+      "PackagePath": "staticwebassets/images/Wukong.jpeg"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.GameReviewApi.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.GameReviewApi.props",
+      "PackagePath": "build\\GameReviewApi.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.GameReviewApi.props",
+      "PackagePath": "buildMultiTargeting\\GameReviewApi.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.GameReviewApi.props",
+      "PackagePath": "buildTransitive\\GameReviewApi.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
