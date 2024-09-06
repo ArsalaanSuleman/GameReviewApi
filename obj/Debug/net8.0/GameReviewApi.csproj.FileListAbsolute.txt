@@ -110,3 +110,4 @@
 /Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/bin/Debug/net8.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 /Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/bin/Debug/net8.0/Newtonsoft.Json.dll
 /Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/bin/Debug/net8.0/Newtonsoft.Json.Bson.dll
+/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/obj/Debug/net8.0/GameReviewApi.sourcelink.json

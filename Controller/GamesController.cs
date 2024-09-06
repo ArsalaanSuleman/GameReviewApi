@@ -92,7 +92,7 @@ namespace GameReviewApi.Controllers
             return CreatedAtAction(nameof(GetGame), new { id = game.Id }, game);
         }
 
-            [HttpPut("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutGame(int id, [FromForm] Game updatedGame, [FromForm] IFormFile image)
         {
             var game = await _context.Games.FindAsync(id);
@@ -134,6 +134,21 @@ namespace GameReviewApi.Controllers
 
             return NoContent();
         } 
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteGame(int id)
+        {
+            var game = await _context.Games.FindAsync(id);
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            _context.Games.Remove(game);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
 
     }
 }
