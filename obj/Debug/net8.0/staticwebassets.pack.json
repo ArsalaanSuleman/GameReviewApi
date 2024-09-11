@@ -5,6 +5,22 @@
       "PackagePath": "staticwebassets/images/Elden Ring.jpeg"
     },
     {
+      "Id": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/Ghostoftsushima.jpeg",
+      "PackagePath": "staticwebassets/images/Ghostoftsushima.jpeg"
+    },
+    {
+      "Id": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/Hogwarts.jpeg",
+      "PackagePath": "staticwebassets/images/Hogwarts.jpeg"
+    },
+    {
+      "Id": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/Tekken 8.jpeg",
+      "PackagePath": "staticwebassets/images/Tekken 8.jpeg"
+    },
+    {
+      "Id": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/Throne and liberty.jpeg",
+      "PackagePath": "staticwebassets/images/Throne and liberty.jpeg"
+    },
+    {
       "Id": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/Wukong.jpeg",
       "PackagePath": "staticwebassets/images/Wukong.jpeg"
     },
