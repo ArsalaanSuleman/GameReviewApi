@@ -3,6 +3,7 @@ using System;
 using GameReviewApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GameReviewApi.Migrations
 {
     [DbContext(typeof(GameReviewContext))]
-    partial class GameReviewContextModelSnapshot : ModelSnapshot
+    [Migration("20240913212659_InitialCreateeeeeee")]
+    partial class InitialCreateeeeeee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,7 +73,7 @@ namespace GameReviewApi.Migrations
                     b.Property<double>("Rating")
                         .HasColumnType("double precision");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -110,30 +113,18 @@ namespace GameReviewApi.Migrations
             modelBuilder.Entity("GameReviewApi.Models.Review", b =>
                 {
                     b.HasOne("GameReviewApi.Models.Game", "Game")
-                        .WithMany("Reviews")
+                        .WithMany()
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("GameReviewApi.Models.User", "User")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Game");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("GameReviewApi.Models.Game", b =>
-                {
-                    b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("GameReviewApi.Models.User", b =>
-                {
-                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

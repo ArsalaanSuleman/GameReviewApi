@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "lJyApv7tO02PVjQtaayg1jtf1kcYmfo8AfOh3sgru90=",
+  "Hash": "fei2inn6y7vBltUoKx5DizeIw3cLlHFlhJnWzz/jA+w=",
   "Source": "GameReviewApi",
   "BasePath": "_content/GameReviewApi",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/images/Tekken 8.jpeg"
+    },
+    {
+      "Identity": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/test.jpeg",
+      "SourceId": "GameReviewApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/",
+      "BasePath": "_content/GameReviewApi",
+      "RelativePath": "images/test.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/test.jpeg"
     },
     {
       "Identity": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/Throne and liberty.jpeg",

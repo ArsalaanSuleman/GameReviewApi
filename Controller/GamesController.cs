@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using GameReviewApi.Data;
 using GameReviewApi.Models;
 using System.IO;
+using GameReviewApi.DTOs;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace GameReviewApi.Controllers
 {
@@ -17,11 +20,11 @@ namespace GameReviewApi.Controllers
             _context = context;
         }
 
+[AllowAnonymous] // Add this attribute to allow anonymous access to this endpoint
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Game>>> GetGames()
         {
             var games = await _context.Games.ToListAsync();
-            // Modify the games to return only the relative paths for image URLs
             var gameDtos = games.Select(game => new 
             {
                 game.Id,
@@ -35,68 +38,45 @@ namespace GameReviewApi.Controllers
             return Ok(gameDtos);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Game>> GetGame(int id)
+
+[HttpGet("{id}")]
+public async Task<IActionResult> GetGame(int id)
+{
+    var game = await _context.Games
+        .Where(g => g.Id == id)
+        .Select(g => new
         {
-            var game = await _context.Games.FindAsync(id);
-
-            if (game == null)
+            g.Id,
+            g.Title,
+            g.Description,
+            g.Genre,
+            g.ReleaseDate,
+            g.ImageUrl,
+            Reviews = g.Reviews.Select(r => new 
             {
-                return NotFound();
-            }
+                r.Id,
+                r.Comment,
+                r.Rating,
+                r.UserId
+            })
+        })
+        .FirstOrDefaultAsync();
 
-            // Return game with relative image URL
-            return Ok(new
-            {
-                game.Id,
-                game.Title,
-                game.Genre,
-                game.Description,
-                game.ReleaseDate,
-                ImageUrl = $"/images/{Path.GetFileName(game.ImageUrl)}"
-            });
-        }
+    if (game == null)
+    {
+        return NotFound();
+    }
 
-        [HttpPost]
-        public async Task<ActionResult<Game>> PostGame([FromForm] Game game, [FromForm] IFormFile image)
-        {
-            if (image != null && image.Length > 0)
-            {
-                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
-                var fileName = Path.GetFileName(image.FileName); // Get the file name
-                var filePath = Path.Combine(uploadsFolder, fileName);
+    return Ok(game);
+}
 
-                // Create directory if it does not exist
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
 
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await image.CopyToAsync(stream);
-                }
-
-                // Save only the relative path
-                game.ImageUrl = $"/images/{fileName}";
-            }
-
-            if (game.ReleaseDate.HasValue)
-            {
-                game.ReleaseDate = DateTime.SpecifyKind(game.ReleaseDate.Value, DateTimeKind.Utc);
-            }
-
-            _context.Games.Add(game);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetGame), new { id = game.Id }, game);
-        }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutGame(int id, [FromForm] Game updatedGame, [FromForm] IFormFile image)
         {
             var game = await _context.Games.FindAsync(id);
-            if (game == null)                
+            if (game == null)
             {
                 return NotFound();
             }
@@ -133,7 +113,7 @@ namespace GameReviewApi.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
-        } 
+        }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGame(int id)
@@ -149,6 +129,5 @@ namespace GameReviewApi.Controllers
 
             return NoContent();
         }
-
     }
 }

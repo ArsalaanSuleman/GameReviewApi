@@ -17,5 +17,6 @@ namespace GameReviewApi.Models
         public DateTime? ReleaseDate { get; set; }
         public string? ImageUrl { get; set; }
         public string? Genre { get; set; }
+        public ICollection<Review>? Reviews { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using GameReviewApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GameReviewApi.Migrations
 {
     [DbContext(typeof(GameReviewContext))]
-    partial class GameReviewContextModelSnapshot : ModelSnapshot
+    [Migration("20240913220701_InitialCreatr")]
+    partial class InitialCreatr
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,7 +119,7 @@ namespace GameReviewApi.Migrations
                         .IsRequired();
 
                     b.HasOne("GameReviewApi.Models.User", "User")
-                        .WithMany("Reviews")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -127,11 +130,6 @@ namespace GameReviewApi.Migrations
                 });
 
             modelBuilder.Entity("GameReviewApi.Models.Game", b =>
-                {
-                    b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("GameReviewApi.Models.User", b =>
                 {
                     b.Navigation("Reviews");
                 });
