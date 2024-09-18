@@ -21,6 +21,10 @@
       "PackagePath": "staticwebassets/images/Throne and liberty.jpeg"
     },
     {
+      "Id": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/Wukong-kopi.jpeg",
+      "PackagePath": "staticwebassets/images/Wukong-kopi.jpeg"
+    },
+    {
       "Id": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/Wukong.jpeg",
       "PackagePath": "staticwebassets/images/Wukong.jpeg"
     },

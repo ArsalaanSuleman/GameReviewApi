@@ -8,13 +8,17 @@ using Newtonsoft.Json.Converters;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var configuration = builder.Configuration;
+
 // Add services to the container
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add database context
 builder.Services.AddDbContext<GameReviewContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Add CORS policy
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -25,15 +29,16 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Add Controllers and configure Newtonsoft.Json settings
 builder.Services.AddControllers()
-                .AddNewtonsoftJson(options =>
-                {
-                    options.SerializerSettings.Converters.Add(new StringEnumConverter());
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                });
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.Converters.Add(new StringEnumConverter());
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+    });
 
-// JWT Authentication
-var key = builder.Configuration["Jwt:Key"];
+// JWT Authentication Configuration
+var key = builder.Configuration["A9df34FeLksdf34Df39Ls9df34FeLksd"];
 if (string.IsNullOrEmpty(key))
 {
     throw new ArgumentNullException(nameof(key), "JWT Key is not configured.");
@@ -44,10 +49,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
+            ValidIssuer = "localhost",
+            ValidAudience = "localhost",
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
-            ValidateIssuer = false,
-            ValidateAudience = false
+            ClockSkew = TimeSpan.Zero // Reduces the allowed time skew when checking token expiration
         };
     });
 
@@ -59,16 +68,19 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Middleware configuration
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-// Add Authentication middleware before Authorization middleware
+// Add Authentication middleware before Authorization
 app.UseAuthentication();
 app.UseAuthorization();
 
+
 app.UseCors();
 
+// Map controllers
 app.MapControllers();
 
 app.Run();

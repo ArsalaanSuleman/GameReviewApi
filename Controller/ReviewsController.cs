@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GameReviewApi.Data;
-using GameReviewApi.DTOs; // Assuming you've created this namespace
 using GameReviewApi.Models;
 using System.Security.Claims;
+using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace GameReviewApi.Controllers
 {
@@ -23,7 +25,7 @@ namespace GameReviewApi.Controllers
         {
             var reviews = await _context.Reviews
                 .Where(r => r.GameId == gameId)
-                .Include(r => r.User) // Include the User entity to access the Username
+                .Include(r => r.User)
                 .Select(r => new ReviewDto
                 {
                     Id = r.Id,
@@ -35,28 +37,36 @@ namespace GameReviewApi.Controllers
 
             if (!reviews.Any())
             {
-                return Ok(new List<ReviewDto>()); // Return an empty list if no reviews found
+                return Ok(new List<ReviewDto>()); 
             }
 
             return Ok(reviews);
         }
 
-        [HttpPost]
+       // [Authorize]
+[HttpPost]
 public async Task<ActionResult<ReviewDto>> AddReview([FromBody] Review review)
 {
     if (review == null)
     {
+        Console.WriteLine("Review is null");
         return BadRequest("Review data is missing.");
     }
 
-    // Get the user ID from the authenticated user
-    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-    if (string.IsNullOrEmpty(userId))
+    Console.WriteLine($"Review received: GameId: {review.GameId}, Comment: {review.Comment}, Rating: {review.Rating}");
+
+    var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    if (string.IsNullOrEmpty(userIdClaim))
     {
         return Unauthorized("User must be logged in to post a review.");
     }
 
-    review.UserId = int.Parse(userId);
+    if (!int.TryParse(userIdClaim, out int userId))
+    {
+        return BadRequest("Invalid user ID.");
+    }
+
+    review.UserId = userId;
 
     _context.Reviews.Add(review);
     try
@@ -77,7 +87,6 @@ public async Task<ActionResult<ReviewDto>> AddReview([FromBody] Review review)
         Username = (await _context.Users.FindAsync(review.UserId))?.Username ?? "Anonymous"
     };
 
-    // Ensure that the GetReview method exists and is correctly named.
     return CreatedAtAction(nameof(GetReview), new { id = review.Id }, reviewDto);
 }
 

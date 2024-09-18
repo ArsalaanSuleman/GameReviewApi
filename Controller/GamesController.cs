@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using GameReviewApi.Data;
 using GameReviewApi.Models;
 using System.IO;
-using GameReviewApi.DTOs;
 using Microsoft.AspNetCore.Authorization;
 
 

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "fei2inn6y7vBltUoKx5DizeIw3cLlHFlhJnWzz/jA+w=",
+  "Hash": "qez8ZllbYcw+sHjStJyK0nMCr2QS8BK+2MbfgWEB9fI=",
   "Source": "GameReviewApi",
   "BasePath": "_content/GameReviewApi",
   "Mode": "Default",
@@ -129,6 +129,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/images/Throne and liberty.jpeg"
+    },
+    {
+      "Identity": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/Wukong-kopi.jpeg",
+      "SourceId": "GameReviewApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/",
+      "BasePath": "_content/GameReviewApi",
+      "RelativePath": "images/Wukong-kopi.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/Wukong-kopi.jpeg"
     },
     {
       "Identity": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/Wukong.jpeg",

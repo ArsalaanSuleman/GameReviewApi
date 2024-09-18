@@ -8,6 +8,6 @@ namespace GameReviewApi.Models
         public string? Name { get; set; }
         public string? Email { get; set; } 
 
-        public ICollection<Review>? Reviews { get; set; } // One-to-Many Relationship with Reviews
+        public ICollection<Review>? Reviews { get; set; } 
     }
 }
