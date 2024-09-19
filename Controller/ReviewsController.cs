@@ -43,7 +43,7 @@ namespace GameReviewApi.Controllers
             return Ok(reviews);
         }
 
-       // [Authorize]
+[Authorize]
 [HttpPost]
 public async Task<ActionResult<ReviewDto>> AddReview([FromBody] Review review)
 {
@@ -54,6 +54,11 @@ public async Task<ActionResult<ReviewDto>> AddReview([FromBody] Review review)
     }
 
     Console.WriteLine($"Review received: GameId: {review.GameId}, Comment: {review.Comment}, Rating: {review.Rating}");
+
+    foreach (var claim in User.Claims)
+    {
+        Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}"); // <--- Place this code here
+    }
 
     var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
     if (string.IsNullOrEmpty(userIdClaim))

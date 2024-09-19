@@ -38,7 +38,7 @@ builder.Services.AddControllers()
     });
 
 // JWT Authentication Configuration
-var key = builder.Configuration["A9df34FeLksdf34Df39Ls9df34FeLksd"];
+var key = builder.Configuration["Jwt:Key"];
 if (string.IsNullOrEmpty(key))
 {
     throw new ArgumentNullException(nameof(key), "JWT Key is not configured.");
