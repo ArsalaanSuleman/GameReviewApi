@@ -90,6 +90,7 @@ public async Task<ActionResult<ReviewDto>> AddReview([FromBody] Review review)
         Comment = review.Comment,
         Rating = review.Rating,
         Username = (await _context.Users.FindAsync(review.UserId))?.Username ?? "Anonymous"
+        
     };
 
     return CreatedAtAction(nameof(GetReview), new { id = review.Id }, reviewDto);

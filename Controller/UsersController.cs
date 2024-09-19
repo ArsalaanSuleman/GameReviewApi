@@ -7,6 +7,7 @@ using GameReviewApi.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GameReviewApi.Controllers
 {
@@ -61,6 +62,8 @@ namespace GameReviewApi.Controllers
             return Ok(new { token });
         }
 
+        
+
         private string HashPassword(string password)
         {
             if (string.IsNullOrEmpty(password))
@@ -86,6 +89,68 @@ namespace GameReviewApi.Controllers
             return enteredHash == storedHash;
         }
 
+    [Authorize]
+    [HttpGet("profile")]
+public async Task<IActionResult> GetUserProfile()
+{
+    // Get the user ID from the authenticated user
+    var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    if (string.IsNullOrEmpty(userIdClaim))
+    {
+        return Unauthorized("User is not authenticated.");
+    }
+
+    if (!int.TryParse(userIdClaim, out int userId))
+    {
+        return BadRequest("Invalid user ID.");
+    }
+
+    // Fetch user details from the database
+    var user = await _context.Users
+        .Where(u => u.Id == userId)
+        .Select(u => new
+        {
+            u.Id,
+            u.Username,
+            u.Name,
+            u.Email
+        })
+        .FirstOrDefaultAsync();
+
+    if (user == null)
+    {
+        return NotFound("User not found.");
+    }
+
+    return Ok(user);
+}
+
+[Authorize]
+[HttpPut("profile")]
+public async Task<IActionResult> UpdateProfile([FromBody] User updatedUser)
+{
+    var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+    {
+        return Unauthorized("Invalid user ID.");
+    }
+
+    var user = await _context.Users.FindAsync(userId);
+    if (user == null)
+    {
+        return NotFound("User not found.");
+    }
+
+    // Update user details
+    user.Username = updatedUser.Username;
+    user.Name = updatedUser.Name;
+
+    _context.Users.Update(user);
+    await _context.SaveChangesAsync();
+
+    return Ok(user); // Return updated user details
+}
+
 private string GenerateJwtToken(User user)
 {
     var tokenHandler = new JwtSecurityTokenHandler();
@@ -107,7 +172,6 @@ private string GenerateJwtToken(User user)
     var token = tokenHandler.CreateToken(tokenDescriptor);
     return tokenHandler.WriteToken(token);
 }
-
 
     }
 }
