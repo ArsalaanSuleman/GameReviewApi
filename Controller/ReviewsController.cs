@@ -84,13 +84,14 @@ public async Task<ActionResult<ReviewDto>> AddReview([FromBody] Review review)
         return StatusCode(500, $"An error occurred while saving the review: {innerExceptionMessage}");
     }
 
+    var username = (await _context.Users.FindAsync(userId))?.Username;
+
     var reviewDto = new ReviewDto
     {
         Id = review.Id,
         Comment = review.Comment,
         Rating = review.Rating,
-        Username = (await _context.Users.FindAsync(review.UserId))?.Username ?? "Anonymous"
-        
+        Username = username
     };
 
     return CreatedAtAction(nameof(GetReview), new { id = review.Id }, reviewDto);
@@ -122,33 +123,51 @@ public async Task<ActionResult<ReviewDto>> AddReview([FromBody] Review review)
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutReview(int id, [FromBody] Review updatedReview)
+public async Task<IActionResult> PutReview(int id, [FromBody] Review updatedReview)
+{
+    // Retrieve the existing review from the database, including the associated User
+    var review = await _context.Reviews
+        .Include(r => r.User) // Ensure the User entity is included
+        .FirstOrDefaultAsync(r => r.Id == id);
+        
+    if (review == null)
+    {
+        return NotFound(); // Return 404 if review not found
+    }
+
+    // Update only the fields that are allowed to be updated
+    review.Comment = updatedReview.Comment;
+    review.Rating = updatedReview.Rating;
+
+    // Save the changes
+    try
+    {
+        await _context.SaveChangesAsync();
+    }
+    catch (DbUpdateConcurrencyException)
+    {
+        if (!_context.Reviews.Any(r => r.Id == id))
         {
-            if (id != updatedReview.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(updatedReview).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Reviews.Any(r => r.Id == id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return NotFound();
         }
+        else
+        {
+            throw;
+        }
+    }
+
+    // Prepare the updated review data, including the Username
+    var reviewDto = new ReviewDto
+    {
+        Id = review.Id,
+        Comment = review.Comment,
+        Rating = review.Rating,
+        Username = review.User?.Username // Ensure the username is included
+    };
+
+    return Ok(reviewDto); // Return the updated review object
+}
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReview(int id)

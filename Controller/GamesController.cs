@@ -69,6 +69,37 @@ public async Task<IActionResult> GetGame(int id)
     return Ok(game);
 }
 
+    [HttpGet("search")]
+public async Task<IActionResult> SearchGames([FromQuery] string query)
+{
+    if (string.IsNullOrEmpty(query))
+    {
+        return BadRequest("Query cannot be empty");
+    }
+
+    var matchingGames = await _context.Games
+        .Where(g => EF.Functions.Like(g.Title.ToLower(), $"%{query.ToLower()}%") || 
+                    EF.Functions.Like(g.Description.ToLower(), $"%{query.ToLower()}%"))
+        .Select(game => new 
+        {
+            game.Id,
+            game.Title,
+            game.Genre,
+            game.Description,
+            game.ReleaseDate,
+            ImageUrl = $"/images/{Path.GetFileName(game.ImageUrl)}" // Ensure consistent image URL
+        })
+        .ToListAsync();
+
+    if (matchingGames.Count == 0)
+    {
+        return NotFound("No games found matching the search query");
+    }
+
+    return Ok(matchingGames);
+}
+
+
 
 
         [HttpPut("{id}")]
