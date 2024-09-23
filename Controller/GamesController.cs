@@ -99,7 +99,19 @@ namespace GameReviewApi.Controllers
             return Ok(matchingGames);
         }
 
+        [HttpGet("{gameId}/average-rating")]
+        public async Task<IActionResult> GetAverageRating(int gameId)
+        {
+            // Fetch all reviews for the game
+            var reviews = await _context.Reviews
+                .Where(r => r.GameId == gameId)
+                .ToListAsync();
 
+            // If no reviews found, return 0 for the average rating
+            double averageRating = reviews.Any() ? reviews.Average(r => r.Rating) : 0;
+
+            return Ok(new { averageRating });
+        }
 
 
         [HttpPut("{id}")]
