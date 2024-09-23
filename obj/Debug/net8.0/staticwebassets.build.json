@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "qez8ZllbYcw+sHjStJyK0nMCr2QS8BK+2MbfgWEB9fI=",
+  "Hash": "/Bhh4UjfpTT9nLywuonw5ld0dUkuxHlfVW2C42uYmWY=",
   "Source": "GameReviewApi",
   "BasePath": "_content/GameReviewApi",
   "Mode": "Default",
@@ -16,6 +16,25 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/blackmyth.jpeg",
+      "SourceId": "GameReviewApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/",
+      "BasePath": "_content/GameReviewApi",
+      "RelativePath": "images/blackmyth.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/blackmyth.jpeg"
+    },
     {
       "Identity": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/Elden Ring.jpeg",
       "SourceId": "GameReviewApi",
@@ -34,6 +53,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/images/Elden Ring.jpeg"
+    },
+    {
+      "Identity": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/ghost.jpeg",
+      "SourceId": "GameReviewApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/",
+      "BasePath": "_content/GameReviewApi",
+      "RelativePath": "images/ghost.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/ghost.jpeg"
     },
     {
       "Identity": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/Ghostoftsushima.jpeg",

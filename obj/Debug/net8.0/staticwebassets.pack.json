@@ -29,6 +29,14 @@
       "PackagePath": "staticwebassets/images/Wukong.jpeg"
     },
     {
+      "Id": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/blackmyth.jpeg",
+      "PackagePath": "staticwebassets/images/blackmyth.jpeg"
+    },
+    {
+      "Id": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/ghost.jpeg",
+      "PackagePath": "staticwebassets/images/ghost.jpeg"
+    },
+    {
       "Id": "/Users/arsalaansuleman/Desktop/GameReview/GameReviewApi/wwwroot/images/test.jpeg",
       "PackagePath": "staticwebassets/images/test.jpeg"
     },
