@@ -62,7 +62,7 @@ namespace GameReviewApi.Controllers
             return Ok(new { token });
         }
 
-        
+
 
         private string HashPassword(string password)
         {
@@ -89,89 +89,89 @@ namespace GameReviewApi.Controllers
             return enteredHash == storedHash;
         }
 
-    [Authorize]
-    [HttpGet("profile")]
-public async Task<IActionResult> GetUserProfile()
-{
-    // Get the user ID from the authenticated user
-    var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
-    if (string.IsNullOrEmpty(userIdClaim))
-    {
-        return Unauthorized("User is not authenticated.");
-    }
-
-    if (!int.TryParse(userIdClaim, out int userId))
-    {
-        return BadRequest("Invalid user ID.");
-    }
-
-    // Fetch user details from the database
-    var user = await _context.Users
-        .Where(u => u.Id == userId)
-        .Select(u => new
+        [Authorize]
+        [HttpGet("profile")]
+        public async Task<IActionResult> GetUserProfile()
         {
-            u.Id,
-            u.Username,
-            u.Name,
-            u.Email
-        })
-        .FirstOrDefaultAsync();
+            // Get the user ID from the authenticated user
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userIdClaim))
+            {
+                return Unauthorized("User is not authenticated.");
+            }
 
-    if (user == null)
-    {
-        return NotFound("User not found.");
-    }
+            if (!int.TryParse(userIdClaim, out int userId))
+            {
+                return BadRequest("Invalid user ID.");
+            }
 
-    return Ok(user);
-}
+            // Fetch user details from the database
+            var user = await _context.Users
+                .Where(u => u.Id == userId)
+                .Select(u => new
+                {
+                    u.Id,
+                    u.Username,
+                    u.Name,
+                    u.Email
+                })
+                .FirstOrDefaultAsync();
 
-[Authorize]
-[HttpPut("profile")]
-public async Task<IActionResult> UpdateProfile([FromBody] User updatedUser)
-{
-    var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
-    if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
-    {
-        return Unauthorized("Invalid user ID.");
-    }
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
 
-    var user = await _context.Users.FindAsync(userId);
-    if (user == null)
-    {
-        return NotFound("User not found.");
-    }
+            return Ok(user);
+        }
 
-    // Update user details
-    user.Username = updatedUser.Username;
-    user.Name = updatedUser.Name;
-
-    _context.Users.Update(user);
-    await _context.SaveChangesAsync();
-
-    return Ok(user); // Return updated user details
-}
-
-private string GenerateJwtToken(User user)
-{
-    var tokenHandler = new JwtSecurityTokenHandler();
-    var key = Encoding.UTF8.GetBytes("A9df34FeLksdf34Df39Ls9df34FeLksd");
-
-    var tokenDescriptor = new SecurityTokenDescriptor
-    {
-        Subject = new ClaimsIdentity(new[]
+        [Authorize]
+        [HttpPut("profile")]
+        public async Task<IActionResult> UpdateProfile([FromBody] User updatedUser)
         {
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+            {
+                return Unauthorized("Invalid user ID.");
+            }
+
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            // Update user details
+            user.Username = updatedUser.Username;
+            user.Name = updatedUser.Name;
+
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(user); // Return updated user details
+        }
+
+        private string GenerateJwtToken(User user)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes("A9df34FeLksdf34Df39Ls9df34FeLksd");
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),  // Single Claim for User ID
             new Claim(JwtRegisteredClaimNames.Sub, user.Username)       // Single Claim for Username
         }),
-        Expires = DateTime.UtcNow.AddHours(1),
-        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-        Issuer = "localhost",
-        Audience = "localhost"
-    };
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                Issuer = "localhost",
+                Audience = "localhost"
+            };
 
-    var token = tokenHandler.CreateToken(tokenDescriptor);
-    return tokenHandler.WriteToken(token);
-}
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
 
     }
 }

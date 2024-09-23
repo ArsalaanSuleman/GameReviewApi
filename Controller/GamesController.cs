@@ -19,12 +19,12 @@ namespace GameReviewApi.Controllers
             _context = context;
         }
 
-[AllowAnonymous] // Add this attribute to allow anonymous access to this endpoint
+        [AllowAnonymous] // Add this attribute to allow anonymous access to this endpoint
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Game>>> GetGames()
         {
             var games = await _context.Games.ToListAsync();
-            var gameDtos = games.Select(game => new 
+            var gameDtos = games.Select(game => new
             {
                 game.Id,
                 game.Title,
@@ -38,66 +38,66 @@ namespace GameReviewApi.Controllers
         }
 
 
-[HttpGet("{id}")]
-public async Task<IActionResult> GetGame(int id)
-{
-    var game = await _context.Games
-        .Where(g => g.Id == id)
-        .Select(g => new
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetGame(int id)
         {
-            g.Id,
-            g.Title,
-            g.Description,
-            g.Genre,
-            g.ReleaseDate,
-            g.ImageUrl,
-            Reviews = g.Reviews.Select(r => new 
+            var game = await _context.Games
+                .Where(g => g.Id == id)
+                .Select(g => new
+                {
+                    g.Id,
+                    g.Title,
+                    g.Description,
+                    g.Genre,
+                    g.ReleaseDate,
+                    g.ImageUrl,
+                    Reviews = g.Reviews.Select(r => new
+                    {
+                        r.Id,
+                        r.Comment,
+                        r.Rating,
+                        r.UserId
+                    })
+                })
+                .FirstOrDefaultAsync();
+
+            if (game == null)
             {
-                r.Id,
-                r.Comment,
-                r.Rating,
-                r.UserId
-            })
-        })
-        .FirstOrDefaultAsync();
+                return NotFound();
+            }
 
-    if (game == null)
-    {
-        return NotFound();
-    }
+            return Ok(game);
+        }
 
-    return Ok(game);
-}
-
-    [HttpGet("search")]
-public async Task<IActionResult> SearchGames([FromQuery] string query)
-{
-    if (string.IsNullOrEmpty(query))
-    {
-        return BadRequest("Query cannot be empty");
-    }
-
-    var matchingGames = await _context.Games
-        .Where(g => EF.Functions.Like(g.Title.ToLower(), $"%{query.ToLower()}%") || 
-                    EF.Functions.Like(g.Description.ToLower(), $"%{query.ToLower()}%"))
-        .Select(game => new 
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchGames([FromQuery] string query)
         {
-            game.Id,
-            game.Title,
-            game.Genre,
-            game.Description,
-            game.ReleaseDate,
-            ImageUrl = $"/images/{Path.GetFileName(game.ImageUrl)}" // Ensure consistent image URL
-        })
-        .ToListAsync();
+            if (string.IsNullOrEmpty(query))
+            {
+                return BadRequest("Query cannot be empty");
+            }
 
-    if (matchingGames.Count == 0)
-    {
-        return NotFound("No games found matching the search query");
-    }
+            var matchingGames = await _context.Games
+                .Where(g => EF.Functions.Like(g.Title.ToLower(), $"%{query.ToLower()}%") ||
+                            EF.Functions.Like(g.Description.ToLower(), $"%{query.ToLower()}%"))
+                .Select(game => new
+                {
+                    game.Id,
+                    game.Title,
+                    game.Genre,
+                    game.Description,
+                    game.ReleaseDate,
+                    ImageUrl = $"/images/{Path.GetFileName(game.ImageUrl)}" // Ensure consistent image URL
+                })
+                .ToListAsync();
 
-    return Ok(matchingGames);
-}
+            if (matchingGames.Count == 0)
+            {
+                return NotFound("No games found matching the search query");
+            }
+
+            return Ok(matchingGames);
+        }
 
 
 
