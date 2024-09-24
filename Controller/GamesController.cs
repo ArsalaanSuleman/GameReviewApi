@@ -69,6 +69,52 @@ namespace GameReviewApi.Controllers
             return Ok(game);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> PostGame([FromForm] Game newGame, [FromForm] IFormFile image)
+        {
+            if (newGame == null)
+            {
+                return BadRequest("Game data is missing.");
+            }
+
+            if (image != null && image.Length > 0)
+            {
+                // Define the folder to save the image
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+                var fileName = Path.GetFileName(image.FileName);
+                var filePath = Path.Combine(uploadsFolder, fileName);
+
+                // Check if the directory exists, if not, create it
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                // Copy the image to the specified path
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(stream);
+                }
+
+                // Save the relative image URL to the game entity
+                newGame.ImageUrl = $"/images/{fileName}";
+            }
+
+            // If release date is provided, set the proper DateTimeKind
+            if (newGame.ReleaseDate.HasValue)
+            {
+                newGame.ReleaseDate = DateTime.SpecifyKind(newGame.ReleaseDate.Value, DateTimeKind.Utc);
+            }
+
+            // Add the new game to the context and save changes
+            _context.Games.Add(newGame);
+            await _context.SaveChangesAsync();
+
+            // Return the created game
+            return CreatedAtAction(nameof(GetGame), new { id = newGame.Id }, newGame);
+        }
+
+
         [HttpGet("search")]
         public async Task<IActionResult> SearchGames([FromQuery] string query)
         {

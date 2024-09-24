@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GameReviewApi.Migrations
 {
     [DbContext(typeof(GameReviewContext))]
-    [Migration("20240913212927_InitialCreat")]
-    partial class InitialCreat
+    [Migration("20240924012131_InitialCreateee")]
+    partial class InitialCreateee
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,13 +113,13 @@ namespace GameReviewApi.Migrations
             modelBuilder.Entity("GameReviewApi.Models.Review", b =>
                 {
                     b.HasOne("GameReviewApi.Models.Game", "Game")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("GameReviewApi.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -127,6 +127,16 @@ namespace GameReviewApi.Migrations
                     b.Navigation("Game");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("GameReviewApi.Models.Game", b =>
+                {
+                    b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("GameReviewApi.Models.User", b =>
+                {
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

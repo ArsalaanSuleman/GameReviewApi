@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GameReviewApi.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialCreateee : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,9 @@ namespace GameReviewApi.Migrations
                     Title = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
                     Rating = table.Column<double>(type: "double precision", nullable: true),
-                    ReleaseDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    ReleaseDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ImageUrl = table.Column<string>(type: "text", nullable: true),
+                    Genre = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -35,7 +37,9 @@ namespace GameReviewApi.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Username = table.Column<string>(type: "text", nullable: true),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true)
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -49,6 +53,7 @@ namespace GameReviewApi.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     GameId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
                     Comment = table.Column<string>(type: "text", nullable: true),
                     Rating = table.Column<double>(type: "double precision", nullable: false)
                 },
@@ -61,12 +66,23 @@ namespace GameReviewApi.Migrations
                         principalTable: "Games",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_GameId",
                 table: "Reviews",
                 column: "GameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_UserId",
+                table: "Reviews",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -76,10 +92,10 @@ namespace GameReviewApi.Migrations
                 name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Games");
 
             migrationBuilder.DropTable(
-                name: "Games");
+                name: "Users");
         }
     }
 }
